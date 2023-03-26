@@ -38,7 +38,12 @@ record PrWithCommentsAndReviews(
         GithubPullRequest githubPullRequest,
         List<GithubPrComment> githubPrComments,
         List<GithubPrReview> githubPrReviews
-) {}
+) {
+    public boolean hasOnlyOwnerComments() {
+        return githubPrComments.stream()
+                .allMatch(comment -> comment.writer().id() == githubPullRequest.owner().id());
+    }
+}
 
 record GithubPrReview(
         GithubUser writer,
